@@ -38,12 +38,15 @@ class MyBuilder(Gtk.Builder):
         else:
             self.clear_messages("error")
             encrypted_text = ""
-            for char in plain_text.upper():
-                index = self.alphabet.find(char)
+            for char in plain_text:
+                index = self.alphabet.find(char.upper())
                 if index >= 0:
-                    encrypted_text = encrypted_text + self.alphabet[::-1][index]
+                    if char.isupper():
+                        encrypted_text += self.alphabet[::-1][index]
+                    else:
+                        encrypted_text += self.alphabet[::-1][index].lower()
                 else:
-                    encrypted_text = encrypted_text + char
+                    encrypted_text += char
             self.textview2.get_buffer().set_text(encrypted_text)
 
 
@@ -60,12 +63,15 @@ class MyBuilder(Gtk.Builder):
             else:
                 self.clear_messages("error")
                 decrypted_text = ""
-                for char in cipher_text.upper():
-                    index = self.alphabet[::-1].find(char)
+                for char in cipher_text:
+                    index = self.alphabet[::-1].find(char.upper())
                     if index >= 0:
-                        decrypted_text = decrypted_text + self.alphabet[index]
+                        if char.isupper():
+                            decrypted_text += self.alphabet[index]
+                        else:
+                            decrypted_text += self.alphabet[index].lower()
                     else:
-                        decrypted_text = decrypted_text + char
+                        decrypted_text += char
                 self.textview1.get_buffer().set_text(decrypted_text)
 
 
